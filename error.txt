@@ -1,0 +1,10 @@
+SyntaxError
+
+OutofMemoryError
+
+RecursionError
+
+GilError
+
+TypeError
+
