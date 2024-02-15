@@ -8,7 +8,6 @@ from PyQt5.QtGui import QIcon
 from text import *
 
 
-
 class Quest(QWidget):
     def __init__(self, name):
         super().__init__()
