@@ -2,8 +2,10 @@
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout
-from PyQt5.QtWidgets import QRadioButton
+from PyQt5.QtWidgets import QRadioButton, QButtonGroup
 from PyQt5.QtGui import QIcon
+
+from MfUrAnError import ThirdScreen
 
 from text import *
 
@@ -13,7 +15,8 @@ class Win(QWidget):
         super().__init__()
         self.name = name
     
-    def show_me(self, wins):
+    def show_me(self, wins, ans):
+        self.ans = ans
         self.wins = wins
         self.set_win()
         self.initUI()
@@ -30,9 +33,17 @@ class Win(QWidget):
         self.next = QPushButton("")
 
         self.rbutt1 = QRadioButton(text)
+        self.rbutt1.setChecked(True)
         self.rbutt2 = QRadioButton(text)
         self.rbutt3 = QRadioButton(text)
         self.rbutt4= QRadioButton(text)
+
+        self.rbuttgroup = QButtonGroup()
+        self.rbuttgroup.addButton(self.rbutt1, id = 1)
+        self.rbuttgroup.addButton(self.rbutt2, id = 2)
+        self.rbuttgroup.addButton(self.rbutt3, id = 3)
+        self.rbuttgroup.addButton(self.rbutt4, id = 4)
+
         self.next_butt = QPushButton('Ответить')
 
         self.lay = QVBoxLayout()
@@ -48,11 +59,20 @@ class Win(QWidget):
         self.next_butt.clicked.connect(self.to_next)
 
     def to_next(self):
-        #win = self.wins[0]
-        #self.hide()
-        #self.next_screen = win
-        print('*next*')
+        if not self.ans:
+            self.ans = list()
+        
+        self.ans.append(self.rbuttgroup.checkedId())
+        self.close()
 
+        if not len(self.wins) <1:
+            self.next_screen = self.wins[0]
+            del self.wins[0]
+            self.next_screen.show_me(self.wins, self.ans)
+        else:
+            self.win = ThirdScreen(self.ans)
+        
+    
 
 if __name__ == '__main__':
     app = QApplication([])
@@ -61,25 +81,3 @@ if __name__ == '__main__':
     win.show_me('hhhhhh')
 
     app.exec()
-
-
-'''
-label1 = QLabel('text1')
-v_line = QVBoxLayout()
-
-v_line.addWidget(label1, alignment=Qt.AlignLeft)
-v_line.addWidget(rbutt1, 3, alignment=Qt.AlignLeft)
-v_line.addWidget(rbutt2, alignment=Qt.AlignLeft)
-v_line.addWidget(rbutt3, alignment=Qt.AlignLeft)
-v_line.addWidget(rbutt4, alignment=Qt.AlignLeft)
-
-v_line.addWidget(button, alignment=Qt.AlignCenter)
-
-
-button.clicked.connect(next_quest)
-my_win.setLayout(v_line)
-
-
-my_win.show()
-app.exec_()
-'''

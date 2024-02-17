@@ -34,20 +34,18 @@ class MainScreen(QWidget):
 
     def moveupoo(self):
         self.win = self.wins[0]
-        self.hide()
+        self.close()
         self.go_next()
         del self.wins[0]
         
     def go_next(self):
-        self.win.show_me(self.wins)
+        self.win.show_me(self.wins, None)
 
 
 app=QApplication([])
 
 from quests_wins import Win
-wins = [Win('1'), Win('2'), Win('3')]
+wins = [Win('1'), Win('2'), Win('3'), Win('4')]
 
 main_win = MainScreen(wins)
-print(main_win.wins) # d
 app.exec()
-print(main_win.wins) # d 
